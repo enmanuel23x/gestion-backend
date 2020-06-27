@@ -1,0 +1,10 @@
+{
+    apps : [
+      {
+        name      : "gestion-backend",
+        script    : "npx",
+        interpreter: "none",
+        args: "npm start"
+      }
+    ]
+  }
