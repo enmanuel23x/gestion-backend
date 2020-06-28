@@ -5,16 +5,17 @@ const cors = require('cors');
 const config  = require('./config/config').server;
 //Initializations
 const app = express();
-const report = require('./routes/reports')
-const booking = require('./routes/booking')
+const report = require('./routes/reports');
+const booking = require('./routes/booking');
 //Express Settings
 app.use(cors());
 //Express Middlewares
-app.use(express.json()); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 //Express Routes
 //app.use('/auth', auth)
-app.use('/report', report)
-app.use('/booking',booking)
+app.use('/report', report);
+app.use('/booking',booking);
 //Start Server
 const PORT = process.env.PORT || config.port;
 

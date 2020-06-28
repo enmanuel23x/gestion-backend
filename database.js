@@ -1,6 +1,6 @@
 //NPM requires
 const mysql = require('mysql');
-const { promisify } = require('util');
+const { promisify } = require('util'); // para poder utilizar promesas
 
 //Project's own requires
 const database  = require('./config/config').database;

@@ -3,12 +3,23 @@ const express = require('express');
 //Project's own requires
 const pool = require('../database');
 //Initializations 
-const router = express.Router()
+const router = express.Router();
 //Rutas
+
+router.get('/get_booking', async (req, res) => {
+    const booking = await pool.query('SELECT * FROM booking');
+    console.log(booking);
+    res.json(booking);
+});
+
+
+
+
+
 router.post('/data', (req, res) => {
-    const { email } = req.body
+    const { email } = req.body;
     pool.query('SELECT * FROM example WHERE email = "'+email+'"', (err, conn) => {
-        printError(err)
+        printError(err);
         res.json(conn)
     });
 })
