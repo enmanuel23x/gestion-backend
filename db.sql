@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `db_gestion_ocupacion`.`request` (
 `req_init_date` DATE NULL DEFAULT '9999-12-31',
 `req_final_date` DATE NULL DEFAULT '9999-12-31',
 `req_real_final_date` DATE NULL DEFAULT NULL,
-`sta_id` INT(11) NULL DEFAULT NULL,
+`sta_id` VARCHAR(45) NULL DEFAULT NULL,
 `req_advance_ptge` FLOAT NULL DEFAULT NULL,
 `req_deviations_ptge` FLOAT NULL DEFAULT NULL,
 `req_client_completed_deliverables` VARCHAR(1024) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL DEFAULT NULL,
