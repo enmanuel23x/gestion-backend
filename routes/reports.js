@@ -29,6 +29,11 @@ router.get('/get_user', async (req, res) => {
     res.json(users);
 });
 
+router.get('/get_req/:id', async (req, res) => {
+    const { id } = req.params
+    const result = await pool.query('SELECT req_id, req_title, req_responsable, req_advance_ptge,req_init_date, req_final_date FROM db_gestion_ocupacion.request WHERE req_id = '+id);
+    res.json(result);
+});
 
 //Funcion para imprimir errores
 function printError(e){
