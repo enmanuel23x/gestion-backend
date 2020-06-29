@@ -10,9 +10,9 @@ const booking = require('./routes/booking')
 //Express Settings
 app.use(cors());
 //Express Middlewares
-app.use(express.json()); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); 
 //Express Routes
-//app.use('/auth', auth)
 app.use('/report', report)
 app.use('/booking',booking)
 //Start Server
