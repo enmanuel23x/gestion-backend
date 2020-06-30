@@ -31,7 +31,16 @@ router.get('/booking', (req, res) => {
         res.json(conn)
     });
 })
-
+router.put('/booking', async (req, res) => {//Ruta para ingresar booking
+    const { cli_id, req_id, usr_id, boo_duration, boo_start_date, boo_end_date, boo_percentage } = req.body 
+    const result = await pool.query('INSERT INTO booking SET ?', {cli_id: cli_id, req_id: req_id, usr_id: usr_id, boo_duration: boo_duration, boo_start_date: boo_start_date, boo_end_date: boo_end_date, boo_percentage: boo_percentage})
+    res.json(result);
+});
+router.post('/booking', async (req, res) => {//Ruta para editar booking
+    const { boo_id, cli_id, req_id, usr_id, boo_duration, boo_start_date, boo_end_date, boo_percentage } = req.body 
+    const result = await pool.query('UPDATE booking SET cli_id = ?, req_id = ?, usr_id = ?, boo_duration = ?, boo_start_date = ?, boo_end_date = ?, boo_percentage = ? WHERE boo_id = ?', [cli_id, req_id, usr_id, boo_duration, boo_start_date, boo_end_date, boo_percentage, boo_id])
+    res.json(result);
+});
 //Funcion para imprimir errores
 function printError(e){
 	if(e!=null){
