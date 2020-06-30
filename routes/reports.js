@@ -16,9 +16,10 @@ router.post('/data', (req, res) => {
 
 // Ruta para listar request
 router.get('/get_request', async (req, res) => {
-    const request = await pool.query('SELECT * FROM request INNER JOIN client ON request.cli_id = client.cli_id where req_status <> 5 ORDER BY client.cli_name ASC, req_title ASC ');
-    console.log(request);
-    res.json(request);
+    const ESTADO = 'finalizado';
+    const request = await pool.query(`SELECT * FROM request INNER JOIN client ON request.cli_id = client.cli_id where sta_id <> '${ESTADO}' ORDER BY client.cli_name ASC, req_title ASC`);
+    console.log(request);	    console.log(request);
+    res.json(request);	    res.json(request);
 });
 
 // Ruta para listar users
@@ -31,7 +32,7 @@ router.get('/get_user', async (req, res) => {
 
 router.get('/get_req/:id', async (req, res) => {
     const { id } = req.params
-    const result = await pool.query('SELECT req_id, req_title, req_responsable, req_advance_ptge,req_init_date, req_final_date FROM db_gestion_ocupacion.request WHERE req_id = '+id);
+    const result = await pool.query('SELECT boo_start_date, boo_end_date, boo_percentage, (SELECT usr_name FROM user WHERE usr_id = db_gestion_ocupacion.booking.usr_id) AS name, (SELECT req_title FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS req_name FROM db_gestion_ocupacion.booking WHERE req_id ='+ id);
     res.json(result);
 });
 
