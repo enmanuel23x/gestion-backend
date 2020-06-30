@@ -12,6 +12,15 @@ router.get('/get_booking', async (req, res) => {
     res.json(booking);
 });
 
+// delete a booking
+
+router.get('/delete_booking/:id', async (req, res) => {
+
+    const { id } = req.params;
+    const result = await pool.query('DELETE FROM booking WHERE boo_id =' + id);
+    res.json(result);
+
+});
 
 
 
