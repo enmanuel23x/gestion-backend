@@ -36,6 +36,13 @@ router.get('/get_req/:id', async (req, res) => {
     res.json(result);
 });
 
+
+router.get('/get_cli/:id', async (req, res) => {
+    const { id } = req.params
+    const result = await pool.query('SELECT cli_id FROM request WHERE req_id = '+ id);
+    res.json(result);
+});
+
 //Funcion para imprimir errores
 function printError(e){
 	if(e!=null){
