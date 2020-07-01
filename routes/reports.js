@@ -32,7 +32,7 @@ router.get('/get_user', async (req, res) => {
 
 router.get('/get_req/:id', async (req, res) => {
     const { id } = req.params
-    const result = await pool.query('SELECT boo_start_date, boo_end_date, boo_percentage, (SELECT usr_name FROM user WHERE usr_id = db_gestion_ocupacion.booking.usr_id) AS name, (SELECT req_title FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS req_name, (SELECT cli_id FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS cli_id FROM db_gestion_ocupacion.booking WHERE req_id ='+ id);
+    const result = await pool.query('SELECT boo_id, boo_start_date, boo_end_date, boo_percentage, (SELECT usr_name FROM user WHERE usr_id = db_gestion_ocupacion.booking.usr_id) AS name, (SELECT req_title FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS req_name, (SELECT cli_id FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS cli_id FROM db_gestion_ocupacion.booking WHERE req_id ='+ id);
     res.json(result);
 });
 
