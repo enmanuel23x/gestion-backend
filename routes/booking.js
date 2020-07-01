@@ -14,12 +14,12 @@ router.get('/booking', (req, res) => {
         WHEN x.boo_end_date = '31/12/9999' THEN '--'
         ELSE x.boo_end_date end AS boo_end_date
       FROM (
-            Select (SELECT usr_name FROM user WHERE usr_id = db_gestion_ocupacion.booking.usr_id) AS usr_name , (SELECT req_title FROM request WHERE req_id = db_gestion_ocupacion.booking.req_id) AS req_title, boo_percentage, (SELECT cli_name FROM client WHERE cli_id = db_gestion_ocupacion.booking.cli_id) AS cli_name, boo_start_date, boo_end_date FROM db_gestion_ocupacion.booking
+            Select (SELECT usr_name FROM user WHERE usr_id = dbGestionOcupacion.booking.usr_id) AS usr_name , (SELECT req_title FROM request WHERE req_id = dbGestionOcupacion.booking.req_id) AS req_title, boo_percentage, (SELECT cli_name FROM client WHERE cli_id = dbGestionOcupacion.booking.cli_id) AS cli_name, boo_start_date, boo_end_date FROM dbGestionOcupacion.booking
                 UNION
             SELECT subquery_1.usr_name, 'Desocupación' as req_title, 100 - subquery_1.boo_percentage as boo_percentage, subquery_1.cli_name,subquery_1.boo_start_date, subquery_1.boo_end_date
                 FROM (
-                    SELECT (SELECT usr_name FROM user WHERE usr_id = db_gestion_ocupacion.booking.usr_id) AS usr_name, sum(boo_percentage) as boo_percentage, '----' AS cli_name, '01/01/1900' boo_start_date, '31/12/9999' boo_end_date
-                        FROM db_gestion_ocupacion.booking
+                    SELECT (SELECT usr_name FROM user WHERE usr_id = dbGestionOcupacion.booking.usr_id) AS usr_name, sum(boo_percentage) as boo_percentage, '----' AS cli_name, '01/01/1900' boo_start_date, '31/12/9999' boo_end_date
+                        FROM dbGestionOcupacion.booking
                         WHERE (cast(boo_start_date as date) <= cast((now()) as date)
                             AND cast(boo_end_date as DATE) >= cast((now()) as date))
                         group by 1
