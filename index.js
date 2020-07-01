@@ -1,5 +1,6 @@
 //NPM Requires
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 //Project's own requires
 const config  = require('./config/config').server;
@@ -12,6 +13,10 @@ app.use(cors());
 //Express Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
+// Vista por defecto para la ruta raiz
+app.get("/", function (request, response) {
+    response.sendFile(path.join(__dirname, 'views/index.html'));
+});
 //Express Routes
 app.use('/report', report)
 app.use('/booking',booking)

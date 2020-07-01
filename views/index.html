@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+<body>
+    <div  id="info">
+        <button @click="Change" v-if="band" class="btn btn-success">Carga de credenciales</button>
+        <button @click="Change" v-else class="btn btn-success">Prueba de rutas</button>
+<div class="container pt-5 pb-5 pl-5 pr-5" v-if="band">
+    <h3>API'S</h3>
+    <div class="row pb-3">
+        <div class="col"><input v-model="boardName" type="text" class="form-control" placeholder="Nombre del Tablero"></div>
+        <div class="col"><button class="btn btn-primary" @click="getBoardID(boardName)">Buscar BoardID</button></div>
+        <div class="col"><p>ID: {{ boardID }}</p></div>
+    </div>
+    <hr>
+    <div class="row pb-3">
+        <div class="col"><input v-model="projectName" type="text" class="form-control" placeholder="Nombre de proyecto"></div>
+        <div class="col"><button class="btn btn-primary" @click="getProjectID(projectName)">Buscar ProjectID</button></div>
+        <div class="col"><p>ID: {{ projectID }}</p></div>
+    </div>
+    <hr>
+    <div class="row pb-3">
+        <div class="col">
+            <input v-model="taskName"  type="text" class="form-control" placeholder="Nombre del Task">
+            <input v-model="proID" type="text" class="form-control" placeholder="ProjectID">
+        </div>
+        <div class="col"><button class="btn btn-primary" @click="getTaskID(taskName, proID)">Buscar TaskID</button></div>
+        <div class="col"><p>ID: {{ taskID }}</p></div>
+    </div>
+    <hr>
+    <h3>Clockify</h3>
+    <div class="row pb-3">
+        <div ><button class="btn btn-primary" @click="getTime()">Obtener horas Clockify</button></div>
+        <div><p>Resultado: {{ Time }}</p></div>
+    </div>
+    <div class="row pb-3">
+        <div ><button class="btn btn-primary" @click="actualizar()">Actualizar tarjetas proyecto existente</button></div>
+        <div ><p>Resultado: {{ Time2 }}</p></div>
+    </div>
+    <hr>
+    <h3>Trello</h3>
+    <div class="row pb-3">
+        <div ><button class="btn btn-primary" @click="getCards()">Actualizar Base de Datos desde tarjetas</button></div>
+        <div ><p>Resultado: {{ cards }}</p></div>
+    </div>
+    <div class="row pb-3">
+        <div><button class="btn btn-primary" @click="createCards()">Creación de tarjetas proyecto nuevo</button></div>
+        <div><p>Resultado: {{ cards2 }}</p></div>
+    </div>
+</div>
+<div class="container pt-5 pb-5 pl-5 pr-5" v-else>
+    <h3>Credenciales</h3>
+    <br>
+    <h5>Token de trello</h5>
+    <input v-model="trelloToken" type="text" class="form-control" placeholder="Token de trello">
+    <h5>Key de trello</h5>
+    <input v-model="trelloKey" type="text" class="form-control" placeholder="Key de trello">
+    <h5>Token de clockify</h5>
+    <input v-model="clockifyToken" type="text" class="form-control" placeholder="Token de clockify">
+</div>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el: '#info',
+        data: {
+            band: true,
+            workspaceId: '5c79aee1b079877a63415e08',
+            //Trello requests
+            boardName: '',
+            boardID: '',
+
+            // Clockify requests
+            // Project Requests
+            projectName: '',
+            projectID: '',
+
+            // Task Requests
+            taskName: '',
+            taskID: '',
+            proID: '',
+            cards: "",
+            cards2: "",
+            Time: "",
+            Time2: "",
+            trelloToken: "82ab3ce0ceb9f7921fc5d80b85a5704c",
+            trelloKey: "7d51ea6fba0ff1d844aa1cfa94f0236c7cb101f33d4f27782327ae813a96aa48",
+            clockifyToken: "XtRVNeJAWBt+F9jR"
+        },
+        methods: {
+            getProjectID(name) {
+                axios.defaults.baseURL = 'https://api.clockify.me/api/v1'
+                axios.defaults.headers.common['X-Api-Key'] = this.$data.clockifyToken
+                axios.defaults.headers.common['content-type'] = 'application/json'
+                /*recibe parametro name(nombre del proyecto) y client(nombre del cliente), busca en la lista de proyectos,
+                devuelve el resultado filtrado y se retorna el ID en la funcion
+                (si los parametros coinciden en su totalidad es la posicion 0 en la lista)*/
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`/workspaces/${this.workspaceId}/projects?name=${name}`);
+                        this.projectID = result.data[0].id
+                        console.log(this.projectID)
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            getTaskID(name, projectId) {
+                axios.defaults.baseURL = 'https://api.clockify.me/api/v1'
+                axios.defaults.headers.common['X-Api-Key'] = this.$data.clockifyToken
+                axios.defaults.headers.common['content-type'] = 'application/json'
+                /*recibe parametro name(nombre de la tarea) y projectId(ID del proyecto), busca en la lista de tareas dentro del proyecto,
+                devuelve el resultado filtrado y se retorna el ID en la funcion
+                (si los parametros coinciden en su totalidad es la posicion 0 en la lista)*/
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`/workspaces/${this.workspaceId}/projects/${projectId}/tasks?name=${name}`);
+                        this.taskID = result.data[0].id;
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            getBoardID(name){
+                let names = []; let ids= []; let index = 0;
+                axios.defaults.baseURL = 'https://api.trello.com/1'
+                const add = '?key='+this.$data.trelloKey+'&token='+this.$data.trelloToken
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        let result = await axios.get(`/members/me/boards${add}`);
+                        result = result.data;
+                        console.log(result)
+                        for (let i = 0; i < result.length; i++) {
+                            names.push(result[i].name);
+                            ids.push(result[i].id);
+                        }
+                        console.log("Names", names)
+                        console.log("IDS", ids)
+
+                        index = names.indexOf(name)
+                        console.log(index)
+
+                        if (index === -1) {
+                            this.boardID = 'No encontrado'
+                        } else {
+                            this.boardID = ids[index]
+                        }
+
+
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            getCards() {
+                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                //Ruta para actualizar las cartas en BD
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`/trello/getCards`);
+                        this.cards = result.data;
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            createCards() {
+                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                //Ruta para actualizar las cartas en BD
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`trello/createCards`);
+                        this.cards2 = result.data;
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            getTime() {
+                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                //Ruta para actualizar las cartas en BD
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`/clockify/getTime`);
+                        this.Time = result.data;
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            actualizar() {
+                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                //Ruta para actualizar las cartas en BD
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        const result = await axios.get(`clockify/actualizar`);
+                        this.Time2 = JSON.stringify(result.data);
+                    } catch (error) {
+                        reject(error)
+                    }
+                });
+            },
+            Change(){
+                this.band= !this.band
+            }
+        }
+    });
+</script>
+</body>
+</html>
