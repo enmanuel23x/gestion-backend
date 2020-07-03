@@ -4,7 +4,7 @@ module.exports = {
 	    port: 3306,
 	    user: 'root',//nodeuser
 	    password : '',//nodeuser1234
-	    database : 'db_gestion_ocupacion',//Cambiar
+	    database : 'dbGestionOcupacion',//Cambiar
 		timezone: "+00:00",
 		connectionLimit: 10,
 		acquireTimeout: 30000

@@ -32,7 +32,7 @@ router.get('/booking', (req, res) => {
     });
 })
 router.put('/booking', async (req, res) => {//Ruta para ingresar booking
-    const { cli_id, req_id, usr_id, boo_duration, boo_start_date, boo_end_date, boo_percentage } = req.body 
+    const { cli_id, req_id, usr_id, boo_duration, boo_start_date, boo_end_date, boo_percentage } = req.body
     const result = await pool.query('INSERT INTO booking SET ?', {cli_id: cli_id, req_id: req_id, usr_id: usr_id, boo_duration: boo_duration, boo_start_date: boo_start_date, boo_end_date: boo_end_date, boo_percentage: boo_percentage})
     res.json(result);
 });
@@ -48,10 +48,4 @@ router.get('/delete_booking/:id', async (req, res) => {
     res.json(result);
 });
 
-//Funcion para imprimir errores
-function printError(e){
-	if(e!=null){
-		console.log(e)
-	}
-}
 module.exports = router
