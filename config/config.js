@@ -10,7 +10,7 @@ module.exports = {
 		acquireTimeout: 30000
     },
     server:{
-        host: "https://10.48.13.156", //Solo para mostrar en el log
+        host: "https://localhost", //Solo para mostrar en el log
         port: 5000
     }
 

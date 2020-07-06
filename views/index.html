@@ -91,7 +91,7 @@
             Time: "",
             Time2: "",
             trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728",
-            trelloKey: "82ab3ce0ceb9f7921fc5d80b85a5704c",
+            trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f",
             clockifyToken: "Xvy1392jqzm2LxBF"
         },
         methods: {
@@ -160,7 +160,7 @@
                 });
             },
             getCards() {
-                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                axios.defaults.baseURL = 'http://localhost:4090'
                 //Ruta para actualizar las cartas en BD
                 return new Promise(async (resolve,reject) => {
                     try {
@@ -172,7 +172,7 @@
                 });
             },
             createCards() {
-                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                axios.defaults.baseURL = 'http://localhost:4090'
                 //Ruta para actualizar las cartas en BD
                 return new Promise(async (resolve,reject) => {
                     try {
@@ -184,11 +184,12 @@
                 });
             },
             getTime() {
-                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                axios.defaults.baseURL = 'http://localhost:4090'
                 //Ruta para actualizar las cartas en BD
                 return new Promise(async (resolve,reject) => {
                     try {
                         const result = await axios.get(`/clockify/getTime`);
+                        console.log(result)
                         this.Time = result.data;
                     } catch (error) {
                         reject(error)
@@ -196,7 +197,7 @@
                 });
             },
             actualizar() {
-                axios.defaults.baseURL = 'http://10.48.13.156:4090'
+                axios.defaults.baseURL = 'http://localhost:4090'
                 //Ruta para actualizar las cartas en BD
                 return new Promise(async (resolve,reject) => {
                     try {

@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cubejs-backend/mysql-driver": "^0.19.46",
+    "@cubejs-backend/server": "^0.19.46",
+    "@cubejs-backend/server-core": "^0.19.46",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
