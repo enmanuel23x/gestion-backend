@@ -28,6 +28,19 @@ router.get('/get_req/:id', async (req, res) => {
     res.json(result);
 });
 
+// Ruta para request con su desviacion
+router.get('/get_req_desv', async (req, res) => {
+
+    const result = await pool.query(`SELECT req_id, cli_id, req_title, req_date, req_init_date, req_final_date, req_real_final_date, req_deviations_ptge, req_day_desv, (SELECT cli_name FROM client WHERE cli_id = dbGestionOcupacion.request.cli_id) AS cli_name FROM dbGestionOcupacion.request ORDER BY cli_name ASC, req_title ASC`);
+    res.json(result);
+});
+
+// Ruta para activities con su desviacion
+router.get('/get_act_desv/:id', async (req, res) => {
+    const { id } = req.params
+    const result = await pool.query(`SELECT act_id, act_trello_name, act_init_date, act_init_real_date, act_end_date, act_real_end_date, act_desv_percentage, act_day_desv, (SELECT req_id, cli_id, req_title, req_responsable FROM request WHERE req_id = '${id}')  FROM dbGestionOcupacion.activities WHERE req_id = '${id}' ORDER BY act_init_date ASC, act_end_date ASC`);
+    res.json(result);
+});
 
 router.get('/get_cli/:id', async (req, res) => {
     const { id } = req.params

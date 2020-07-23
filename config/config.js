@@ -1,10 +1,10 @@
 module.exports = {
     database:{
-		host: '10.48.13.154',//10.48.13.154
+		host: 'localhost',//10.48.13.154
 	    port: 3306,
-	    user: 'nodeuser',//nodeuser
-	    password : 'nodeuser1234',//nodeuser1234
-	    database : 'dbGestionOcupacion',//Cambiar
+	    user: 'root',//nodeuser
+	    password : 'revl1994',//nodeuser1234
+	    database : 'dbgestionocupacion',//Cambiar
 		timezone: "+00:00",
 		connectionLimit: 10,
 		acquireTimeout: 30000
