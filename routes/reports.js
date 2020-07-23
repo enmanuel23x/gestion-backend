@@ -35,10 +35,11 @@ router.get('/get_req_desv', async (req, res) => {
     res.json(result);
 });
 
+
 // Ruta para activities con su desviacion
 router.get('/get_act_desv/:id', async (req, res) => {
     const { id } = req.params
-    const result = await pool.query(`SELECT act_id, act_trello_name, act_init_date, act_init_real_date, act_end_date, act_real_end_date, act_desv_percentage, act_day_desv, (SELECT req_id, cli_id, req_title, req_responsable FROM request WHERE req_id = '${id}')  FROM dbGestionOcupacion.activities WHERE req_id = '${id}' ORDER BY act_init_date ASC, act_end_date ASC`);
+    const result = await pool.query(`SELECT act_id, activities.req_id,  act_trello_name, act_init_date, act_init_real_date, act_end_date, act_real_end_date, act_desv_percentage, act_day_desv, (SELECT cli_name FROM client WHERE EXISTS (SELECT cli_id FROM request WHERE request.req_id = '${id}')) AS cli_name, (SELECT req_title FROM request WHERE request.req_id = '${id}') AS req_title, (SELECT req_responsable  FROM request WHERE request.req_id = '${id}') AS req_responsable  FROM activities WHERE activities.req_id = '${id}' ORDER BY act_init_date DESC , act_end_date DESC`);
     res.json(result);
 });
 
