@@ -31,7 +31,7 @@ router.get('/get_req/:id', async (req, res) => {
 // Ruta para request con su desviacion
 router.get('/get_req_desv', async (req, res) => {
 
-    const result = await pool.query(`SELECT req_id, cli_id, req_title, req_date, req_init_date, req_final_date, req_real_final_date, req_deviations_ptge, req_day_desv, 
+    const result = await pool.query(`SELECT req_id, cli_id, req_title, req_responsable, req_date, req_init_date, req_final_date, req_real_final_date, req_deviations_ptge, req_day_desv, 
                                      (SELECT cli_name FROM client WHERE cli_id = dbGestionOcupacion.request.cli_id) AS cli_name 
                                      FROM dbGestionOcupacion.request 
                                      ORDER BY cli_name ASC, req_title ASC`);
