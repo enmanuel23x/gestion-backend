@@ -16,6 +16,7 @@
     "@cubejs-backend/server-core": "^0.19.46",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
+    "date-diff": "^0.2.2",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.4",

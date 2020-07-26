@@ -1,5 +1,6 @@
 //npm requires
 const express = require('express');
+const DateDiff = require('date-diff');
 //Project's own requires
 const pool = require('../database');
 //Initializations 
@@ -56,4 +57,23 @@ router.get('/get_cli/:id', async (req, res) => {
     res.json(result);
 });
 
+router.get('/update_desv', async (req, res) => {
+    pool.query('SELECT act_id, act_init_date, act_end_date, act_init_real_date, act_real_end_date FROM activities;', async (err, conn) => {
+        if(!err){
+            let date1a, date2a, diff, date1b, date2b, real_diff, result = "";
+            conn.forEach(element => {
+                date1a = new Date(element.act_init_date);
+                date2a = new Date(element.act_end_date);
+                diff = new DateDiff(date1a, date2a).days();
+                date1b = new Date(element.act_init_real_date);
+                date2b = new Date(element.act_real_end_date);
+                real_diff = new DateDiff(date1b, date2b).days();
+                perc = Math.round((diff/real_diff)*10000)/100 == "Infinity" ? null : Math.round((diff/real_diff)*10000)/100;
+                days = diff - real_diff
+                result += "UPDATE activities SET act_day_desv = "+days+", act_desv_percentage = "+perc+" WHERE act_id =  "+element.act_id+";";
+            });
+            res.send(await pool.query(result))
+        }
+    });
+});
 module.exports = router

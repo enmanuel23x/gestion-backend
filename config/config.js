@@ -7,7 +7,8 @@ module.exports = {
 	    database : 'dbGestionOcupacion',//Cambiar
 		timezone: "+00:00",
 		connectionLimit: 10,
-		acquireTimeout: 30000
+		acquireTimeout: 30000,
+		multipleStatements: true
     },
     server:{
         host: "https://localhost", //Solo para mostrar en el log
