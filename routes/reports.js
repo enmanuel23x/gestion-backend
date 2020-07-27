@@ -26,8 +26,8 @@ router.get('/get_user', async (req, res) => {
 router.get('/get_req_desv', async (req, res) => {
 
     const result = await pool.query(`SELECT req_id, cli_id, req_title, req_responsable, req_date, req_init_date, req_final_date, req_real_final_date, req_deviations_ptge, req_day_desv, 
-                                     (SELECT cli_name FROM client WHERE cli_id = dbGestionOcupacion.request.cli_id) AS cli_name 
-                                     FROM dbGestionOcupacion.request 
+                                     (SELECT cli_name FROM client WHERE cli_id = dbgestionocupacion.request.cli_id) AS cli_name 
+                                     FROM dbgestionocupacion.request 
                                      ORDER BY cli_name ASC, req_title ASC`);
     res.json(result);
 });
@@ -46,7 +46,7 @@ router.get('/get_act_desv/:id', async (req, res) => {
 });
 router.get('/get_req/:id', async (req, res) => {
     const { id } = req.params
-    const result = await pool.query('SELECT boo_id, boo_start_date, boo_end_date, boo_percentage, (SELECT usr_name FROM user WHERE usr_id = dbGestionOcupacion.booking.usr_id) AS usr_name, usr_id, (SELECT req_title FROM request WHERE req_id = dbGestionOcupacion.booking.req_id) AS req_title, (SELECT cli_id FROM request WHERE req_id = dbGestionOcupacion.booking.req_id) AS cli_id FROM dbGestionOcupacion.booking WHERE req_id ='+ id);
+    const result = await pool.query('SELECT boo_id, boo_start_date, boo_end_date, boo_percentage, (SELECT usr_name FROM user WHERE usr_id = dbgestionocupacion.booking.usr_id) AS usr_name, usr_id, (SELECT req_title FROM request WHERE req_id = dbgestionocupacion.booking.req_id) AS req_title, (SELECT cli_id FROM request WHERE req_id = dbgestionocupacion.booking.req_id) AS cli_id FROM dbgestionocupacion.booking WHERE req_id ='+ id);
     res.json(result);
 });
 
