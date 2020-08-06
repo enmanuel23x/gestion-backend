@@ -89,6 +89,17 @@
       <h5>Token de clockify</h5>
       <input v-model="clockifyToken" type="text" class="form-control" placeholder="Token de clockify">
     </div>
+    <hr>
+    <div class="pl-5">
+      <h1>Incidencias</h1>
+      <div class="row pb-3">
+        <div class="col"><input v-model="ticket_id" type="text" class="form-control" placeholder="Ticket ID"></div>
+        <div class="col"><button class="btn btn-primary" @click="Incidents()">Actualizar Horas clockify</button></div>
+        <div class="col">
+          <p>Res: {{ ticket_res }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -116,7 +127,12 @@
         Time2: "",
         trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728",
         trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f",
-        clockifyToken: "Xvy1392jqzm2LxBF"
+        clockifyToken: "Xvy1392jqzm2LxBF",
+
+        // Incidents
+
+        ticket_id: '',
+        ticket_res: ''
       },
       methods: {
         getProjectID(name) {
@@ -236,6 +252,22 @@
         },
         Change() {
           this.band = !this.band
+        },
+        Incidents(){
+          console.log("Clicked")
+          console.log(this.ticket_id)
+          //
+          axios.defaults.baseURL = 'http://localhost:4050'
+          //Ruta para actualizar las cartas en BD
+          return new Promise(async (resolve, reject) => {
+            try {
+              const result = await axios.get(`tickets/update_ticket/`+this.ticket_id);
+              this.ticket_res = JSON.stringify(result.data);
+            } catch (error) {
+              reject(error)
+            }
+          });
+          //
         }
       }
     });
