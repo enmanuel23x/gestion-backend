@@ -293,7 +293,7 @@
           return new Promise(async (resolve, reject) => {
             try {
               const result = await axios.get(`tickets/update_ticket/`+this.ticket_id);
-              this.ticket_res = JSON.stringify(result.data);
+              this.ticket_res =  result.data;
             } catch (error) {
               reject(error)
             }
