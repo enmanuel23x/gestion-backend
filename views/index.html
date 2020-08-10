@@ -61,19 +61,9 @@
               <td>{{ cards2 }}</td>
             </tr>
             <tr>
-              <th scope="row">3 (Clockify)</th>
-              <td><button class="btn btn-primary" @click="getTime()">Obtener horas Clockify</button></td>
-              <td>{{ Time }}</td>
-            </tr>
-            <tr>
-              <th scope="row">4 (Clockify)</th>
-              <td><button class="btn btn-primary" @click="actualizar()">Actualizar tarjetas proyecto existente</button></td>
-              <td>{{ Time2 }}</td>
-            </tr>
-            <tr>
-              <th scope="row">5 (Trello)</th>
-              <td><button class="btn btn-primary" @click="getCards()">Actualizar Base de Datos desde tarjetas</button></td>
-              <td>{{ cards }}</td>
+              <th scope="row">3 (General)</th>
+              <td><button class="btn btn-primary" @click="sincro()">Sincronizar tarjetas</button></td>
+              <td>{{ sync }}</td>
             </tr>
           </tbody>
         </table>
@@ -123,10 +113,11 @@
         proID: '',
         cards: "",
         cards2: "",
+        sync: "",
         Time: "",
         Time2: "",
-        trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728",
-        trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f",
+        trelloToken: "22b262d7b19e02d785a2b1fa0ba982e55ab891122b07d7ff79ffda934f7a4e28",
+        trelloKey: "5d94aa42b86a6f4e11d7cd857ff8699a",
         clockifyToken: "Xvy1392jqzm2LxBF",
 
         // Incidents
@@ -202,7 +193,7 @@
           });
         },
         getCards() {
-          axios.defaults.baseURL = 'http://10.48.13.156:4090'
+          axios.defaults.baseURL = 'http://localhost:4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -213,8 +204,20 @@
             }
           });
         },
+        sincro(){
+          axios.defaults.baseURL = 'http://localhost:4090'
+          //Ruta para actualizar las cartas en BD
+          return new Promise(async (resolve, reject) => {
+            try {
+              const result = await axios.get(`trello/syncro`);
+              this.sync = result.data;
+            } catch (error) {
+              reject(error)
+            }
+          });
+        },
         createCards() {
-          axios.defaults.baseURL = 'http://10.48.13.156:4090'
+          axios.defaults.baseURL = 'http://localhost:4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -226,7 +229,7 @@
           });
         },
         getTime() {
-          axios.defaults.baseURL = 'http://10.48.13.156:4090'
+          axios.defaults.baseURL = 'http://localhost:4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -239,7 +242,7 @@
           });
         },
         actualizar() {
-          axios.defaults.baseURL = 'http://10.48.13.156:4090'
+          axios.defaults.baseURL = 'http://localhost:4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -257,7 +260,7 @@
           console.log("Clicked")
           console.log(this.ticket_id)
           //
-          axios.defaults.baseURL = 'http://10.48.13.156:4050'
+          axios.defaults.baseURL = 'http://localhost:4050'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
