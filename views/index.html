@@ -27,6 +27,15 @@
       </div>
       <hr>
       <div class="row pb-3">
+        <div class="col"><input v-model="boardID2" type="text" class="form-control" placeholder="ID del Tablero"></div>
+        <div class="col"><input v-model="listName" type="text" class="form-control" placeholder="Nombre de la lista"></div>
+        <div class="col"><button class="btn btn-primary" @click="getListID(boardID2, listName)">Buscar listID</button></div>
+        <div class="col">
+          <p>ID: {{ listID }}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row pb-3">
         <div class="col"><input v-model="projectName" type="text" class="form-control" placeholder="Nombre de proyecto"></div>
         <div class="col"><button class="btn btn-primary" @click="getProjectID(projectName)">Buscar ProjectID</button></div>
         <div class="col">
@@ -45,6 +54,7 @@
         </div>
       </div>
       <hr>
+      <h1>Solicitudes</h1>
       <div class="col-12">
         <table class="table table-bordered">
           <thead>
@@ -68,6 +78,15 @@
           </tbody>
         </table>
       </div>
+      <hr>
+      <h1>Incidencias</h1>
+      <div class="row pb-3">
+        <div class="col"><input v-model="ticket_id" type="text" class="form-control" placeholder="Ticket ID"></div>
+        <div class="col"><button class="btn btn-primary" @click="Incidents()">Actualizar Horas clockify</button></div>
+        <div class="col">
+          <p>Res: {{ ticket_res }}</p>
+        </div>
+      </div>
     </div>
     <div class="container pt-5 pb-5 pl-5 pr-5" v-else>
       <h3>Credenciales</h3>
@@ -78,17 +97,6 @@
       <input v-model="trelloKey" type="text" class="form-control" placeholder="Key de trello">
       <h5>Token de clockify</h5>
       <input v-model="clockifyToken" type="text" class="form-control" placeholder="Token de clockify">
-    </div>
-    <hr>
-    <div class="pl-5">
-      <h1>Incidencias</h1>
-      <div class="row pb-3">
-        <div class="col"><input v-model="ticket_id" type="text" class="form-control" placeholder="Ticket ID"></div>
-        <div class="col"><button class="btn btn-primary" @click="Incidents()">Actualizar Horas clockify</button></div>
-        <div class="col">
-          <p>Res: {{ ticket_res }}</p>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -117,14 +125,20 @@
         Time: "",
         Time2: "",
         host: "http://10.48.13.156",
-        trelloToken: "22b262d7b19e02d785a2b1fa0ba982e55ab891122b07d7ff79ffda934f7a4e28",
-        trelloKey: "5d94aa42b86a6f4e11d7cd857ff8699a",
+        trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728",
+        trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f",
         clockifyToken: "Xvy1392jqzm2LxBF",
 
         // Incidents
 
         ticket_id: '',
-        ticket_res: ''
+        ticket_res: '',
+
+
+        //Lista
+        listID: "",
+        listName: "",
+        boardID2: ""
       },
       methods: {
         getProjectID(name) {
@@ -160,6 +174,23 @@
             }
           });
         },
+        getListID(boardID2, listName){
+          axios.defaults.baseURL = 'https://api.trello.com/1/';
+          const add = '?key=' + this.$data.trelloKey + '&token=' + this.$data.trelloToken
+          return new Promise(async (resolve, reject) => {
+            try {
+              let result = await axios.get(`boards/${boardID2}/lists${add}`);
+              result = result.data.filter( (el)=>el.name == listName);
+              if(result.length!=0){
+                this.listID = result[0].id
+              }else{
+                this.listID = "ERROR"
+              }
+            } catch (error) {
+              reject(error)
+            }
+          });
+        },
         getBoardID(name) {
           let names = [];
           let ids = [];
@@ -170,16 +201,12 @@
             try {
               let result = await axios.get(`/members/me/boards${add}`);
               result = result.data;
-              console.log(result)
               for (let i = 0; i < result.length; i++) {
                 names.push(result[i].name);
                 ids.push(result[i].id);
               }
-              console.log("Names", names)
-              console.log("IDS", ids)
 
               index = names.indexOf(name)
-              console.log(index)
 
               if (index === -1) {
                 this.boardID = 'No encontrado'
