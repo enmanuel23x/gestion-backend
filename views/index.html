@@ -116,6 +116,7 @@
         sync: "",
         Time: "",
         Time2: "",
+        host: "http://10.48.13.156",
         trelloToken: "22b262d7b19e02d785a2b1fa0ba982e55ab891122b07d7ff79ffda934f7a4e28",
         trelloKey: "5d94aa42b86a6f4e11d7cd857ff8699a",
         clockifyToken: "Xvy1392jqzm2LxBF",
@@ -193,7 +194,7 @@
           });
         },
         getCards() {
-          axios.defaults.baseURL = 'http://localhost:4090'
+          axios.defaults.baseURL = this.$data.host+':4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -205,7 +206,7 @@
           });
         },
         sincro(){
-          axios.defaults.baseURL = 'http://localhost:4090'
+          axios.defaults.baseURL = this.$data.host+':4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -217,7 +218,7 @@
           });
         },
         createCards() {
-          axios.defaults.baseURL = 'http://localhost:4090'
+          axios.defaults.baseURL = this.$data.host+':4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -229,7 +230,7 @@
           });
         },
         getTime() {
-          axios.defaults.baseURL = 'http://localhost:4090'
+          axios.defaults.baseURL = this.$data.host+':4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -242,7 +243,7 @@
           });
         },
         actualizar() {
-          axios.defaults.baseURL = 'http://localhost:4090'
+          axios.defaults.baseURL = this.$data.host+':4090'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
@@ -260,7 +261,7 @@
           console.log("Clicked")
           console.log(this.ticket_id)
           //
-          axios.defaults.baseURL = 'http://localhost:4050'
+          axios.defaults.baseURL = this.$data.host+':4050'
           //Ruta para actualizar las cartas en BD
           return new Promise(async (resolve, reject) => {
             try {
