@@ -54,8 +54,8 @@ router.get('/get_act_desv/:id', async (req, res) => {
     (SELECT cli_name FROM client WHERE cli_id IN (SELECT cli_id FROM request WHERE request.req_id = '${id}')) AS cli_name,
     (SELECT req_title FROM request WHERE request.req_id = '${id}') AS req_title,
     (SELECT req_responsable  FROM request WHERE request.req_id = '${id}') AS req_responsable
-    FROM activities WHERE activities.req_id = '${id}'
-    ORDER BY act_init_date DESC , act_end_date DESC`);
+    FROM activities WHERE activities.req_id = '${id}' AND activities.act_title = 'false'
+    ORDER BY act_init_date ASC , act_end_date ASC`);
     res.json(result);
 });
 router.get('/get_req/:id', async (req, res) => {
