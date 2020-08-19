@@ -87,6 +87,13 @@
           <p>Res: {{ ticket_res }}</p>
         </div>
       </div>
+      <!--  -->
+      <div class="row pb-3">
+        <div class="col"><button class="btn btn-primary" @click="update_all()">Actualizar todas horas clockify</button></div>
+        <div class="col">
+          <p>Res: {{ update_res }}</p>
+        </div>
+      </div>
     </div>
     <div class="container pt-5 pb-5 pl-5 pr-5" v-else>
       <h3>Credenciales</h3>
@@ -133,6 +140,7 @@
 
         ticket_id: '',
         ticket_res: '',
+        update_res: "",
 
 
         //Lista
@@ -299,6 +307,18 @@
             }
           });
           //
+        },
+        update_all(){
+          console.log("Clicked")
+          axios.defaults.baseURL = this.$data.host+':4050'          
+          return new Promise(async (resolve, reject) => {
+            try {
+              const result = await axios.get(`tickets/update_all`);
+              this.update_res =  result.data;
+            } catch (error) {
+              reject(error)
+            }
+          });
         }
       }
     });
