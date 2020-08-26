@@ -94,6 +94,14 @@
           <p>Res: {{ update_res }}</p>
         </div>
       </div>
+      <hr>
+      <h1>No Registrados</h1>
+      <div class="row pb-3">
+        <div class="col"><button class="btn btn-primary" @click="update_unregistered()">Actualizar tabla No Registrados</button></div>
+        <div class="col">
+          <p>Res: {{ unregistered_res }}</p>
+        </div>
+      </div>
     </div>
     <div class="container pt-5 pb-5 pl-5 pr-5" v-else>
       <h3>Credenciales</h3>
@@ -131,9 +139,22 @@
         sync: "",
         Time: "",
         Time2: "",
+
+
+        // QA
         host: "http://10.48.13.156",
-        trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728",
-        trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f",
+        trelloToken: "dab44b231906a2484ee48d2fe11704046651e0083c6e71da3727f33589abd728", // Angel
+        trelloKey: "97ed379704c2ca46cc6de86a6f0fa31f", // Angel
+
+        // // Pruebas
+        // host: "http://localhost",
+        // trelloToken: "22b262d7b19e02d785a2b1fa0ba982e55ab891122b07d7ff79ffda934f7a4e28", // Ramon
+        // trelloKey: "5d94aa42b86a6f4e11d7cd857ff8699a", // Ramon
+
+
+
+
+
         clockifyToken: "Xvy1392jqzm2LxBF",
 
         // Incidents
@@ -146,7 +167,10 @@
         //Lista
         listID: "",
         listName: "",
-        boardID2: ""
+        boardID2: "",
+
+        // No Registrados
+        unregistered_res: ""
       },
       methods: {
         getProjectID(name) {
@@ -310,7 +334,7 @@
         },
         update_all(){
           console.log("Clicked")
-          axios.defaults.baseURL = this.$data.host+':4050'          
+          axios.defaults.baseURL = this.$data.host+':4050'
           return new Promise(async (resolve, reject) => {
             try {
               const result = await axios.get(`tickets/update_all`);
@@ -319,6 +343,20 @@
               reject(error)
             }
           });
+        },
+        update_unregistered(){
+          console.log("Clicked")
+          axios.defaults.baseURL = this.$data.host+':4050'
+          //Ruta para actualizar las cartas en BD
+          return new Promise(async (resolve, reject) => {
+            try {
+              const result = await axios.get(`tickets/update_not_reg`);
+              this.unregistered_res =  result.data;
+            } catch (error) {
+              reject(error)
+            }
+          });
+          //
         }
       }
     });
